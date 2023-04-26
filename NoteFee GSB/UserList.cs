@@ -23,74 +23,55 @@ namespace NoteFee_GSB
 
         public void LoadData()
         {
-            /*{
-                // Charger les données à partir de la base de données
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand("SELECT * FROM users", connection);
-                    SqlDataReader reader = command.ExecuteReader();
-                    dataGridView1.Rows.Clear();
-                    while (reader.Read())
-                    {
-                        int id_user = (int)reader["id_user"];
-                        string username = reader["username"].ToString();
-                        string passwd = reader["passwd"].ToString();
-                        string email = reader["email"].ToString();
-                        string fname = reader["fname"].ToString();
-                        string lname = reader["lname"].ToString();
-                        string city = reader["city"].ToString();
-                        string phone = reader["phone"].ToString();
-                        dataGridView1.Rows.Add(id_user, username, passwd, email, fname, lname, city, phone);
-                    }
-                }
-            }*/
 
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.GreenYellow;
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.HeaderCell.Style.BackColor = Color.GreenYellow;
+            }
+            // TODO: cette ligne de code charge les données dans la table 'notefee_gsbDataSet10.roles'. Vous pouvez la déplacer ou la supprimer selon les besoins.
+            this.rolesTableAdapter1.Fill(this.notefee_gsbDataSet10.roles);
+            // TODO: cette ligne de code charge les données dans la table 'notefee_gsbDataSet9.roles'. Vous pouvez la déplacer ou la supprimer selon les besoins.
+            this.rolesTableAdapter.Fill(this.notefee_gsbDataSet9.roles);
             // TODO: cette ligne de code charge les données dans la table 'notefee_gsbDataSet6.users'. Vous pouvez la déplacer ou la supprimer selon les besoins.
             this.usersTableAdapter2.Fill(this.notefee_gsbDataSet6.users);
-
-            // TODO: cette ligne de code charge les données dans la table 'notefee_gsbDataSet4.users'. Vous pouvez la déplacer ou la supprimer selon les besoins.
-            //this.usersTableAdapter1.Fill(this.notefee_gsbDataSet4.users);
-            // TODO: cette ligne de code charge les données dans la table 'notefee_gsbDataSet3.users'. Vous pouvez la déplacer ou la supprimer selon les besoins.
-            //this.usersTableAdapter.Fill(this.notefee_gsbDataSet3.users);
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // Chaîne de connexion à la base de données
-            string connectionString = "Data Source=DESKTOP-TO2JDQ3\\SQLEXPRESS;Initial Catalog=notefee_gsb;Integrated Security=True;";
-
-
-            string username = textBox1.Text;
-            string fname = textBox2.Text;
-            string lname = textBox3.Text;
-            string passwd = textBox4.Text;
-            string email = textBox5.Text;
-            string city = textBox6.Text;
-            string phone = textBox7.Text;
-            //string role = comboBox1.Text;
-            // Créer une commande SQL d'insertion
-            string insertQuery = "INSERT INTO users (username, passwd, email, fname, lname,phone, city) VALUES (@username, @passwd, @email, @fname, @lname, @phone, @city)";
-            SqlCommand command = new SqlCommand(insertQuery);
-
-            // Ajouter des paramètres à la commande SQL
-            command.Parameters.AddWithValue("@username", username);
-            command.Parameters.AddWithValue("@passwd", passwd);
-            command.Parameters.AddWithValue("@email", email);
-            command.Parameters.AddWithValue("@fname", fname);
-            command.Parameters.AddWithValue("@lname", lname);
-            command.Parameters.AddWithValue("@phone", phone);
-            command.Parameters.AddWithValue("@city", city);
-            //command.Parameters.AddWithValue("@roles", role);
-
-
-            // Créer une connexion à la base de données et exécuter la commande SQL
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                string username = textBox1.Text;
+                string fname = textBox2.Text;
+                string lname = textBox3.Text;
+                string passwd = textBox4.Text;
+                string email = textBox5.Text;
+                string city = textBox6.Text;
+                string phone = textBox7.Text;
+                string role = comboBox1.Text;
+
+
+                //string role = comboBox1.Text;
+                // Créer une commande SQL d'insertion
+                string insertQuery = "INSERT INTO users (username, passwd, email, fname, lname,phone, city, role_name) VALUES (@username, @passwd, @email, @fname, @lname, @phone, @city, ( SELECT role_name FROM roles WHERE id = @role))";
+                SqlCommand command = new SqlCommand(insertQuery);
+
+                // Ajouter des paramètres à la commande SQL
+                command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@passwd", passwd);
+                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@fname", fname);
+                command.Parameters.AddWithValue("@lname", lname);
+                command.Parameters.AddWithValue("@phone", phone);
+                command.Parameters.AddWithValue("@city", city);
+                command.Parameters.AddWithValue("@role", role);
+
+
                 try
                 {
                     connection.Open();
@@ -110,6 +91,15 @@ namespace NoteFee_GSB
                 {
                     MessageBox.Show("Une erreur est survenue lors de l'exécution de la requête: " + ex.Message);
                 }
+
+            }
+
+            
+
+            // Créer une connexion à la base de données et exécuter la commande SQL
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
             }
         }
 
@@ -123,6 +113,7 @@ namespace NoteFee_GSB
 
         }
 
+        //Boutton Modifier
         private void button2_Click(object sender, EventArgs e)
         {
             /*if (dataGridView1.SelectedRows.Count > 0)
@@ -203,6 +194,16 @@ namespace NoteFee_GSB
                 // Annuler l'événement pour empêcher l'entrée de caractères non numériques
                 e.Handled = true;
             }
+            if (textBox7.TextLength >= 8 && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
         }
     }
     

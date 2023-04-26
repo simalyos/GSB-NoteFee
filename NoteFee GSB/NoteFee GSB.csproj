@@ -47,6 +47,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gsb1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\mysql-connector.net\MySql.Data.dll</HintPath>
@@ -106,6 +118,11 @@
     <Compile Include="History.Designer.cs">
       <DependentUpon>History.cs</DependentUpon>
     </Compile>
+    <Compile Include="notefee_gsbDataSet10.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notefee_gsbDataSet10.xsd</DependentUpon>
+    </Compile>
     <Compile Include="notefee_gsbDataSet4.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,6 +147,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>notefee_gsbDataSet8.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="notefee_gsbDataSet9.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notefee_gsbDataSet9.xsd</DependentUpon>
     </Compile>
     <Compile Include="UserList.cs">
       <SubType>Form</SubType>
@@ -214,6 +236,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="notefee_gsbDataSet.xsc">
       <DependentUpon>notefee_gsbDataSet.xsd</DependentUpon>
     </None>
@@ -235,6 +258,17 @@
     </None>
     <None Include="notefee_gsbDataSet1.xss">
       <DependentUpon>notefee_gsbDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="notefee_gsbDataSet10.xsc">
+      <DependentUpon>notefee_gsbDataSet10.xsd</DependentUpon>
+    </None>
+    <None Include="notefee_gsbDataSet10.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>notefee_gsbDataSet10.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="notefee_gsbDataSet10.xss">
+      <DependentUpon>notefee_gsbDataSet10.xsd</DependentUpon>
     </None>
     <None Include="notefee_gsbDataSet2.xsc">
       <DependentUpon>notefee_gsbDataSet2.xsd</DependentUpon>
@@ -313,7 +347,19 @@
     <None Include="notefee_gsbDataSet8.xss">
       <DependentUpon>notefee_gsbDataSet8.xsd</DependentUpon>
     </None>
+    <None Include="notefee_gsbDataSet9.xsc">
+      <DependentUpon>notefee_gsbDataSet9.xsd</DependentUpon>
+    </None>
+    <None Include="notefee_gsbDataSet9.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>notefee_gsbDataSet9.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="notefee_gsbDataSet9.xss">
+      <DependentUpon>notefee_gsbDataSet9.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -328,6 +374,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="gsb1.ico" />
     <Content Include="notefee.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -335,6 +382,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>notefee.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\back.jpg" />
+    <None Include="Resources\home.png" />
     <None Include="Resources\360_F_424309320_UkOxg2z3sq7yXwGnWCO6xBXkRI4byhnI.jpg" />
     <None Include="Resources\healthcare-and-medical-background-with-cardiogram-line-free-vector.jpg" />
   </ItemGroup>

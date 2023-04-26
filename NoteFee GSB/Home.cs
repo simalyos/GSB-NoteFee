@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Forms;
 
 namespace NoteFee_GSB
 {
+    [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
     public partial class Home : Form
     {
         //private string selectedType = Login.SelectedType;
@@ -14,30 +17,42 @@ namespace NoteFee_GSB
         public Home()
         {
             InitializeComponent();
-            
+            this.DoubleBuffered = true;
+
+            // Rendre la navigation entre les onglets plus fluide
+            this.SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            this.UpdateStyles();
+
+            UpdateWelcomeLabel();
+
+        // Disponibilité de bouton Gestion des utilisateurs uniquement si le role de l'utilisateur est de type admin,
+        // Le role est recuperer depuis la classe Login à l'aide de la requete executer lors de la connexion
             if (Role == "admin")
             {
                 adminToolStripMenuItem.Visible = true;
-            } else
+            }
+            else
             {
                 adminToolStripMenuItem.Visible = false;
             }
 
-
-
-            //label3.Text = "Bienvenue dans NoteFee " + Login.utilisateur;
         }
 
 
         private void Home_Load(object sender, EventArgs e)
         {
-            // Afficher le nom d'utilisateur dans le label de bienvenue
-            label3.Text = "Bienvenue dans NoteFee " + Login.LoggedInUsername;
+
         }
 
+        //Texte de bienvenue d'utilisateur
+        private void UpdateWelcomeLabel()
+        {
+            label3.Text = "Bienvenue dans NoteFee " + Login.LoggedInUsername;
+            label3.ForeColor = Color.RoyalBlue; // Changer la couleur du texte ici
+            label3.Font = new Font(label3.Font.FontFamily, label3.Font.Size); // Changer le style du texte ici
+        }
 
-    
-
+        //Bouton Ajouter une note de frais
         private void ajouterUneNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddNote addNoteForm = new AddNote(); // Créer une instance de la deuxième forme
@@ -49,49 +64,46 @@ namespace NoteFee_GSB
             addNoteForm.Dock = DockStyle.Fill;
             addNoteForm.BringToFront();
             addNoteForm.Show(); // Afficher la deuxième forme
-            /*AddNote addNoteForm = new AddNote();
 
-            // Afficher le formulaire "AddNote" en tant que fenêtre non modale
-            addNoteForm.Show();
-            this.Hide(); */
         }
+
+        //Bouton Historique
 
         private void historiqueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             History historyForm = new History(); // Créer une instance de la deuxième forme
-            historyForm.TopLevel = false; // Indiquer que la deuxième forme n'est pas une fenêtre de niveau supérieur
-            historyForm.AutoScroll = true; // Permettre le défilement automatique si la deuxième forme est plus grande que le Panel
-            this.panel1.Controls.Add(historyForm); // Ajouter la deuxième forme au Panel
+            historyForm.TopLevel = false; 
+            historyForm.AutoScroll = true; 
+            this.panel1.Controls.Add(historyForm); 
             historyForm.FormBorderStyle = FormBorderStyle.None;
             panel1.Controls.Add(historyForm);
             historyForm.Dock = DockStyle.Fill;
             historyForm.BringToFront();
-            historyForm.Show(); // Afficher la deuxième forme
+            historyForm.Show(); 
             /*History historyForm = new History();
-
             historyForm.Show();
             this.Hide();*/
         }
 
+        //Bouton Envoyer un document
         private void envoyerUnDocumentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SendDoc SendDocForm = new SendDoc(); // Créer une instance de la deuxième forme
-            SendDocForm.TopLevel = false; // Indiquer que la deuxième forme n'est pas une fenêtre de niveau supérieur
-            SendDocForm.AutoScroll = true; // Permettre le défilement automatique si la deuxième forme est plus grande que le Panel
-            this.panel1.Controls.Add(SendDocForm); // Ajouter la deuxième forme au Panel
+            SendDoc SendDocForm = new SendDoc(); 
+            SendDocForm.TopLevel = false; 
+            SendDocForm.AutoScroll = true; 
+            this.panel1.Controls.Add(SendDocForm); 
             SendDocForm.FormBorderStyle = FormBorderStyle.None;
             panel1.Controls.Add(SendDocForm);
             SendDocForm.Dock = DockStyle.Fill;
             SendDocForm.BringToFront();
-            SendDocForm.Show(); // Afficher la deuxième forme
+            SendDocForm.Show(); 
             /*SendDoc SendDocForm = new SendDoc();
-
             SendDocForm.Show();
             this.Hide();*/
             SendDocForm.LoadData();
         }
 
-
+        //Bouton Deconnexion
         private void decdeconnexionToolStripMenuItem_Click(object obj, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir vous déconnecter ?", "Confirmation de déconnexion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -99,17 +111,17 @@ namespace NoteFee_GSB
             if (result == DialogResult.Yes)
             {
                 // Code pour se déconnecter et revenir à la page de connexion
-                // ...
-                // Par exemple, revenir à la page de connexion :
                 Login loginPage = new Login();
-                loginPage.TopLevel = false; // Indiquer que la deuxième forme n'est pas une fenêtre de niveau supérieur
-                loginPage.AutoScroll = true; // Permettre le défilement automatique si la deuxième forme est plus grande que le Panel
-                this.panel1.Controls.Add(loginPage); // Ajouter la deuxième forme au Panel
+                loginPage.TopLevel = false; 
+                loginPage.AutoScroll = true;
+                this.panel1.Controls.Add(loginPage); 
                 loginPage.FormBorderStyle = FormBorderStyle.None;
                 panel1.Controls.Add(loginPage);
                 loginPage.Dock = DockStyle.Fill;
                 loginPage.BringToFront();
-                loginPage.Show(); // Afficher la deuxième forme
+                loginPage.Show(); 
+                menuStrip1.Visible = false;
+                this.statusStrip1.Visible = false;
                 //this.Hide(); // Masquer la page actuelle
             }
             else if (result == DialogResult.No)
@@ -119,9 +131,23 @@ namespace NoteFee_GSB
 
         }
 
+        //Bouton Gestion des utilisateurs disponible uniquement pour l'administrateur
+        private void adminToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserList addUserForm = new UserList();
+            addUserForm.TopLevel = false; 
+            addUserForm.AutoScroll = true; 
+            this.panel1.Controls.Add(addUserForm); 
+            addUserForm.FormBorderStyle = FormBorderStyle.None;
+            panel1.Controls.Add(addUserForm);
+            addUserForm.Dock = DockStyle.Fill;
+            addUserForm.BringToFront();
+            addUserForm.Show();
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            
+
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -134,50 +160,21 @@ namespace NoteFee_GSB
 
         }
 
-        private void adminToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-            UserList addUserForm = new UserList();
-            addUserForm.TopLevel = false; // Indiquer que la deuxième forme n'est pas une fenêtre de niveau supérieur
-            addUserForm.AutoScroll = true; // Permettre le défilement automatique si la deuxième forme est plus grande que le Panel
-            this.panel1.Controls.Add(addUserForm); // Ajouter la deuxième forme au Panel
-            addUserForm.FormBorderStyle = FormBorderStyle.None;
-            panel1.Controls.Add(addUserForm);
-            addUserForm.Dock = DockStyle.Fill;
-            addUserForm.BringToFront();
-            addUserForm.Show(); 
-            
-            /*if (selectedType == "admin")
-            {
-                UserList AddUserForm = new UserList();
-                AddUserForm.Show();
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Vous n'avez pas les autorisations nécessaires pour accéder à cette fonctionnalité.");
-            }*/
-        }
 
         private void utilisateursToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-        /*private void Home_Load_1(object sender, EventArgs e)
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            // TODO: cette ligne de code charge les données dans la table 'notefee_gsbDataSet8.roles'. Vous pouvez la déplacer ou la supprimer selon les besoins.
-            this.rolesTableAdapter.Fill(this.notefee_gsbDataSet8.roles);
 
-        }*/
+        }
+
+        private string GetDebuggerDisplay()
+        {
+            return ToString();
+        }
     }
-
-    /*private void ajouterUneNoteToolStripMenuItem_Click_1(object sender, EventArgs e)
-    {
-        AddNote addNoteForm = new AddNote();
-
-        // Afficher le formulaire "AddNote" en tant que fenêtre modale
-        addNoteForm.ShowDialog();
-    }*/
-
 }

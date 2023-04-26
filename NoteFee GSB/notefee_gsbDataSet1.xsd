@@ -95,45 +95,63 @@ SELECT id_note, nt_id_user, name, description, date, amount, comment, doc_name F
               <Mapping SourceColumn="comment" DataSetColumn="comment" />
               <Mapping SourceColumn="doc_name" DataSetColumn="doc_name" />
             </Mappings>
-            <Sources />
+            <Sources>
+              <DbSource ConnectionRef="notefee_gsbConnectionString (Settings)" DbObjectName="notefee_gsb.dbo.notes" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillBy" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillBy" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillBy">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT id_note, nt_id_user, name, description, date, amount, comment, doc_name FROM dbo.notes</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="notefee_gsbConnectionString (Settings)" DbObjectName="notefee_gsb.dbo.notes" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillBy1" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillBy1" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillBy1">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT id_note, nt_id_user, name, description, date, amount, comment, doc_name
+FROM  notes</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
           </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="notefee_gsbDataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="notefee_gsbDataSet1" msprop:Generator_DataSetName="notefee_gsbDataSet1">
+  <xs:element name="notefee_gsbDataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="notefee_gsbDataSet1" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="notefee_gsbDataSet1">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="notes" msprop:Generator_RowEvHandlerName="notesRowChangeEventHandler" msprop:Generator_RowDeletedName="notesRowDeleted" msprop:Generator_RowDeletingName="notesRowDeleting" msprop:Generator_RowEvArgName="notesRowChangeEvent" msprop:Generator_TablePropName="notes" msprop:Generator_RowChangedName="notesRowChanged" msprop:Generator_RowChangingName="notesRowChanging" msprop:Generator_TableClassName="notesDataTable" msprop:Generator_RowClassName="notesRow" msprop:Generator_TableVarName="tablenotes" msprop:Generator_UserTableName="notes">
+        <xs:element name="notes" msprop:Generator_RowClassName="notesRow" msprop:Generator_RowEvHandlerName="notesRowChangeEventHandler" msprop:Generator_RowDeletedName="notesRowDeleted" msprop:Generator_RowDeletingName="notesRowDeleting" msprop:Generator_RowEvArgName="notesRowChangeEvent" msprop:Generator_TablePropName="notes" msprop:Generator_RowChangedName="notesRowChanged" msprop:Generator_UserTableName="notes" msprop:Generator_RowChangingName="notesRowChanging" msprop:Generator_TableClassName="notesDataTable" msprop:Generator_TableVarName="tablenotes">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="id_note" msprop:Generator_ColumnPropNameInRow="id_note" msprop:Generator_ColumnPropNameInTable="id_noteColumn" msprop:Generator_ColumnVarNameInTable="columnid_note" msprop:Generator_UserColumnName="id_note" type="xs:int" />
-              <xs:element name="nt_id_user" msprop:Generator_ColumnPropNameInRow="nt_id_user" msprop:Generator_ColumnPropNameInTable="nt_id_userColumn" msprop:Generator_ColumnVarNameInTable="columnnt_id_user" msprop:Generator_UserColumnName="nt_id_user" type="xs:int" minOccurs="0" />
-              <xs:element name="name" msprop:Generator_ColumnPropNameInRow="name" msprop:Generator_ColumnPropNameInTable="nameColumn" msprop:Generator_ColumnVarNameInTable="columnname" msprop:Generator_UserColumnName="name" minOccurs="0">
+              <xs:element name="id_note" msprop:Generator_UserColumnName="id_note" msprop:Generator_ColumnPropNameInTable="id_noteColumn" msprop:Generator_ColumnPropNameInRow="id_note" msprop:Generator_ColumnVarNameInTable="columnid_note" type="xs:int" />
+              <xs:element name="nt_id_user" msprop:Generator_UserColumnName="nt_id_user" msprop:Generator_ColumnPropNameInTable="nt_id_userColumn" msprop:Generator_ColumnPropNameInRow="nt_id_user" msprop:Generator_ColumnVarNameInTable="columnnt_id_user" type="xs:int" minOccurs="0" />
+              <xs:element name="name" msprop:Generator_UserColumnName="name" msprop:Generator_ColumnPropNameInTable="nameColumn" msprop:Generator_ColumnPropNameInRow="name" msprop:Generator_ColumnVarNameInTable="columnname" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="description" msprop:Generator_ColumnPropNameInRow="description" msprop:Generator_ColumnPropNameInTable="descriptionColumn" msprop:Generator_ColumnVarNameInTable="columndescription" msprop:Generator_UserColumnName="description" minOccurs="0">
+              <xs:element name="description" msprop:Generator_UserColumnName="description" msprop:Generator_ColumnPropNameInTable="descriptionColumn" msprop:Generator_ColumnPropNameInRow="description" msprop:Generator_ColumnVarNameInTable="columndescription" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="date" msprop:Generator_ColumnPropNameInRow="date" msprop:Generator_ColumnPropNameInTable="dateColumn" msprop:Generator_ColumnVarNameInTable="columndate" msprop:Generator_UserColumnName="date" type="xs:dateTime" />
-              <xs:element name="amount" msprop:Generator_ColumnPropNameInRow="amount" msprop:Generator_ColumnPropNameInTable="amountColumn" msprop:Generator_ColumnVarNameInTable="columnamount" msprop:Generator_UserColumnName="amount" type="xs:int" minOccurs="0" />
-              <xs:element name="comment" msprop:Generator_ColumnPropNameInRow="comment" msprop:Generator_ColumnPropNameInTable="commentColumn" msprop:Generator_ColumnVarNameInTable="columncomment" msprop:Generator_UserColumnName="comment" minOccurs="0">
+              <xs:element name="date" msprop:Generator_UserColumnName="date" msprop:Generator_ColumnPropNameInTable="dateColumn" msprop:Generator_ColumnPropNameInRow="date" msprop:Generator_ColumnVarNameInTable="columndate" type="xs:dateTime" />
+              <xs:element name="amount" msprop:Generator_UserColumnName="amount" msprop:Generator_ColumnPropNameInTable="amountColumn" msprop:Generator_ColumnPropNameInRow="amount" msprop:Generator_ColumnVarNameInTable="columnamount" type="xs:int" minOccurs="0" />
+              <xs:element name="comment" msprop:Generator_UserColumnName="comment" msprop:Generator_ColumnPropNameInTable="commentColumn" msprop:Generator_ColumnPropNameInRow="comment" msprop:Generator_ColumnVarNameInTable="columncomment" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="250" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="doc_name" msprop:Generator_ColumnPropNameInRow="doc_name" msprop:Generator_ColumnPropNameInTable="doc_nameColumn" msprop:Generator_ColumnVarNameInTable="columndoc_name" msprop:Generator_UserColumnName="doc_name" minOccurs="0">
+              <xs:element name="doc_name" msprop:Generator_UserColumnName="doc_name" msprop:Generator_ColumnPropNameInTable="doc_nameColumn" msprop:Generator_ColumnPropNameInRow="doc_name" msprop:Generator_ColumnVarNameInTable="columndoc_name" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="10" />

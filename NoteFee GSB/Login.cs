@@ -23,6 +23,7 @@ namespace NoteFee_GSB
         public Login()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
             //comboBox1.SelectedIndex = 2;
         }
 
@@ -34,20 +35,11 @@ namespace NoteFee_GSB
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //string username = textBoxUsername.Text;
-            //string passwd = textBoxPassword.Text;
-            //tring selectedType = comboBox1.SelectedItem.ToString();
-            // Authentification de l'utilisateur
-           // string loggedInUser = comboBox1.SelectedItem.ToString();
-            //Session.LoggedInUser = loggedInUser;
-
             
             SqlConnection connection = new SqlConnection(connectionString);
             {
                 string username = textBoxUsername.Text;
                 string passwd = textBoxPassword.Text;
-
-                //SqlConnection connection = new SqlConnection(connectionString);
 
                 try
                 {
@@ -64,32 +56,10 @@ namespace NoteFee_GSB
                     {
                         idUtilisateur = reader.GetInt32(0);
                         Role = reader.GetString(1);
+                        Console.WriteLine(Role);
                         LoggedInUsername = username;
 
-                        if (Role == "admin")
-                        {
-                            // Utilisateur authentifié en tant qu'Admin, ouvrir l'application principale
-                            Home mainForm = new Home();
-                            mainForm.Show();
-                            this.Hide();
-                        }
-                        else if (Role == "utilisateur")
-                        {
-                            // Utilisateur authentifié en tant qu'Utilisateur, ouvrir l'application principale
-                            Home mainForm = new Home();
-                            mainForm.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            // Afficher un message d'erreur
-                            MessageBox.Show("Rôle non reconnu.");
-                        }
-
-                        // Utilisateur authentifié, ouvrir l'application principale
-                        //Home mainForm = new Home();
-                        //mainForm.Show();
-                        //this.Hide();
+                        ShowHome();
                     }
                     else
                     {
@@ -106,134 +76,33 @@ namespace NoteFee_GSB
                     connection.Close();
                 }
             }
-            //string userType = comboBox1.SelectedItem.ToString(); // récupérer le type d'utilisateur sélectionné dans la liste déroulante
-            /*{
-                connection.Open();
 
-                string query = "SELECT users.id, roles.role_name FROM users INNER JOIN roles ON users.role_id = roles.id WHERE username=@username AND passwd=@passwd";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@username", username);
-                command.Parameters.AddWithValue("@passwd", passwd);
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    idUtilisateur = reader.GetInt32(0);
-                    Role = reader.GetString(1);
-
-                    // Utilisateur authentifié, ouvrir l'application principale
-                    Home mainForm = new Home();
-                    mainForm.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    // Afficher un message d'erreur
-                    MessageBox.Show("Nom d'utilisateur ou mot de passe incorrect.");
-                }
-            }*/
-            /*try
-            {
-                connection.Open();
-
-                string query = "";
-
-                if (Login.userType == "admin")
-                {
-                    query = "SELECT COUNT(*) FROM users WHERE username=@username AND passwd=@passwd";
-                }
-                else
-                {
-                    query = "SELECT COUNT(*) FROM users WHERE username=@username AND passwd=@passwd";
-                }
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@username", username);
-                command.Parameters.AddWithValue("@passwd", passwd);
-                idUtilisateur = Convert.ToInt32(command.ExecuteScalar());
-
-                int count = (int)command.ExecuteScalar();
-
-                if (count == 1)
-                {
-                    if (selectedType == "admin")
-                    //if (!string.IsNullOrEmpty(userType))
-                    {
-                        utilisateur = textBoxUsername.Text;
-                        Home home = new Home();
-                        home.Show();
-                        this.Hide();
-                        // Rediriger vers l'onglet de administration des utilisateurs pour les admins
-                        //UserList AddUserForm = new UserList();
-                        //AddUserForm.Show();
-                        //this.Hide();
-                    }
-                    else if (selectedType == "utilisateur")
-                    {
-
-                        utilisateur = textBoxUsername.Text;
-                        
-                        // Rediriger vers la page d'accueil pour les utilisateurs
-                        Home home = new Home();
-                        home.Show();
-                        this.Hide();
-                    }
-                }
-                else
-                {
-                    // Afficher un message d'erreur
-                    MessageBox.Show("Nom d'utilisateur, mot de passe ou type d'utilisateur incorrect.");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erreur : " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }*/
         }
 
-            /*SqlConnection connection = new SqlConnection("Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = C:\\Users\\Siméon ALYOSHEV\\Documents\\notefee.mdf; Integrated Security = True; Connect Timeout = 30");
-            {
-                connection.Open();
-                string query = "SELECT COUNT(*) FROM users WHERE username=@username AND passwd=@passwd";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@username", username);
-                command.Parameters.AddWithValue("@passwd", passwd);
-                int count = (int)command.ExecuteScalar();
-                if (count == 1)
-                {
-                    // Utilisateur authentifié, ouvrir l'application principale
-                    Home mainForm = new Home();
-                    mainForm.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    // Afficher un message d'erreur
-                    MessageBox.Show("Nom d'utilisateur ou mot de passe incorrect.");
-                }
-            } */
+        private void ShowHome()
+        {
+            Home mainForm = new Home();
+            mainForm.TopLevel = false;
+            mainForm.Dock = DockStyle.Fill;
 
-            /*
-             //Test de la connexion
-            try
+            if (Role == "admin")
             {
-                connection.Open();
-                MessageBox.Show("Connexion réussie !");
+                mainForm.FormBorderStyle = FormBorderStyle.None;
             }
-            catch (SqlException ex)
+            else if (Role == "utilisateur")
             {
-                MessageBox.Show("Erreur de connexion : " + ex.Message);
+                mainForm.FormBorderStyle = FormBorderStyle.None;
             }
-           */
+            else
+            {
+                MessageBox.Show("Rôle non reconnu.");
+                return;
+            }
 
-        
-
+            panel1.Controls.Clear();
+            panel1.Controls.Add(mainForm);
+            mainForm.Show();
+        }
         private void label1_Click(object sender, EventArgs e)
         {
 
